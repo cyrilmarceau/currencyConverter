@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Convertions;
+use App\Models\Convertion;
 use Illuminate\Http\Request;
 
-class ConvertionsController extends Controller
+class ConvertionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ConvertionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Convertions  $convertions
+     * @param  \App\Models\Convertion  $convertion
      * @return \Illuminate\Http\Response
      */
-    public function show(Convertions $convertions)
+    public function show(Convertion $convertion)
     {
         //
     }
@@ -52,10 +52,10 @@ class ConvertionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Convertions  $convertions
+     * @param  \App\Models\Convertion  $convertion
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convertions $convertions)
+    public function edit(Convertion $convertion)
     {
         //
     }
@@ -64,10 +64,10 @@ class ConvertionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Convertions  $convertions
+     * @param  \App\Models\Convertion  $convertion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Convertions $convertions)
+    public function update(Request $request, Convertion $convertion)
     {
         //
     }
@@ -75,10 +75,10 @@ class ConvertionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Convertions  $convertions
+     * @param  \App\Models\Convertion  $convertion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convertions $convertions)
+    public function destroy(Convertion $convertion)
     {
         //
     }

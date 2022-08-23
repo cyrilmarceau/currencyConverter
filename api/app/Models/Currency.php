@@ -9,8 +9,8 @@ class Currency extends Model
 {
     use HasFactory;
 
-    public function pairs()
-    {
-        return $this->hasMany(Pairs::class);
-    }
+    // public function pairs()
+    // {
+    //     return $this->hasMany(Pairs::class);
+    // }
 }

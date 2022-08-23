@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Currencies;
+use App\Models\Pair;
 use Illuminate\Http\Request;
 
-class CurrenciesController extends Controller
+class PairController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,12 @@ class CurrenciesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   
+        $pairs = Pair::getAll();
+        
+        foreach ($pairs as $value) {
+            print_r($value->currency_from->name);
+        }
     }
 
     /**
@@ -41,10 +45,10 @@ class CurrenciesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Currencies  $currencies
+     * @param  \App\Models\Pair  $pair
      * @return \Illuminate\Http\Response
      */
-    public function show(Currencies $currencies)
+    public function show(Pair $pair)
     {
         //
     }
@@ -52,10 +56,10 @@ class CurrenciesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Currencies  $currencies
+     * @param  \App\Models\Pair  $pair
      * @return \Illuminate\Http\Response
      */
-    public function edit(Currencies $currencies)
+    public function edit(Pair $pair)
     {
         //
     }
@@ -64,10 +68,10 @@ class CurrenciesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Currencies  $currencies
+     * @param  \App\Models\Pair  $pair
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currencies $currencies)
+    public function update(Request $request, Pair $pair)
     {
         //
     }
@@ -75,10 +79,10 @@ class CurrenciesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Currencies  $currencies
+     * @param  \App\Models\Pair  $pair
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Currencies $currencies)
+    public function destroy(Pair $pair)
     {
         //
     }

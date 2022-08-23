@@ -18,22 +18,15 @@ class Pair extends Model
         'currency_to_id'
     ];
 
-    public function currenciesFrom()
-    {
-        $this->resolveRelationUsing('currency', function ($currencyModel) {
-            return $currencyModel->belongsTo(Currency::class, 'currency_from_id');
-        });
-    }
 
-    public function currenciesTo()
+    /**
+     * getAll
+     * Get a list of all pairs
+     * @return array
+     */
+    public static function getAll()
     {
-        $this->resolveRelationUsing('currency', function ($currencyModel) {
-            return $currencyModel->belongsTo(Currency::class, 'currency_to_id');
-        });
-    }
-
-    public function currencies()
-    {
-        return $this->belongsTo(Currencies::class);
+        $pairs = Pair::all();
+        return $pairs;
     }
 }
