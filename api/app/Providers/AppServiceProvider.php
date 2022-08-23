@@ -25,11 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Pair::resolveRelationUsing('currency_from', function ($pairModel) {
+        Pair::resolveRelationUsing('currency_from_id', function ($pairModel) {
             return $pairModel->belongsTo(Currency::class, 'currency_from_id');
         });
 
-        Pair::resolveRelationUsing('currency_to', function ($pairModel) {
+        Pair::resolveRelationUsing('currency_to_id', function ($pairModel) {
             return $pairModel->belongsTo(Currency::class, 'currency_to_id');
         });
     }

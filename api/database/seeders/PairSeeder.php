@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Convertion;
 use App\Models\Currency;
 use App\Models\Pair;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,21 +19,19 @@ class PairSeeder extends Seeder
     {
         $currencies = Currency::all();
         
-        // for($i = 0; $i < count($currencies); $i++) {
+        foreach($currencies as $key => $currency) {
 
-            foreach($currencies as $currency) {
+            $pair = Pair::create([
+                "rate" => mt_rand(0.1*10, 1.5*10) / 10,
+                "currency_from_id" => rand(1, count($currencies)),
+                "currency_to_id" => $currency->id
+            ]);
 
-                // if($currency->id !== $currencies[$i]->id) {
+            Convertion::create([
+                "count" => $key + 1,
+                'pair_id' => $pair->id
+            ]);
 
-                    Pair::create([
-                        "rate" => mt_rand(0.1*10, 1.5*10) / 10,
-                        "currency_from_id" => rand(1, count($currencies)),
-                        "currency_to_id" => $currency->id
-                    ]);
-                // }
-    
-            }
-
-        // }
+        }
     }
 }

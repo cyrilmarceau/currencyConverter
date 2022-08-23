@@ -19,7 +19,6 @@ return new class extends Migration
             $table->bigInteger('count')->nullable();
             $table->unsignedBigInteger('pair_id')->nullable();
             $table->foreign('pair_id')->references('id')->on('pairs')->onDelete('cascade')->nullable();
-
         });
     }
 

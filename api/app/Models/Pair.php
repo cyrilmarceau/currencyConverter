@@ -18,6 +18,11 @@ class Pair extends Model
         'currency_to_id'
     ];
 
+    // Relation between convertion and pair
+    public function convertion(){
+        return $this->hasOne(Convertion::class);
+    }
+
 
     /**
      * getAll
@@ -26,7 +31,7 @@ class Pair extends Model
      */
     public static function getAll()
     {
-        $pairs = Pair::all();
+        $pairs = Pair::with(['currency_from_id', 'currency_to_id'])->get();
         return $pairs;
     }
 }

@@ -16,8 +16,12 @@ class PairController extends Controller
     {   
         $pairs = Pair::getAll();
         
-        if(!empty($pairs)) {
-            return $this->sendError(null, ['empty_datas' => "La liste des pairs est vide."]); 
+        if($pairs->isEmpty()) {
+            $errors = [
+                'empty_datas' => 'La liste des pairs est vide.'
+            ];
+
+            return $this->sendError(null, $errors); 
         }
         return $this->sendResponse($pairs, 'Liste de pair retrouvé avec succès.');
         
