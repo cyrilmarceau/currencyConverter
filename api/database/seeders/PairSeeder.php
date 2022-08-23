@@ -18,21 +18,21 @@ class PairSeeder extends Seeder
     {
         $currencies = Currency::all();
         
-        for($i = 0; $i < count($currencies); $i++) {
+        // for($i = 0; $i < count($currencies); $i++) {
 
             foreach($currencies as $currency) {
 
-                if($currency->id !== $currencies[$i]->id) {
+                // if($currency->id !== $currencies[$i]->id) {
 
                     Pair::create([
                         "rate" => mt_rand(0.1*10, 1.5*10) / 10,
-                        "currency_from_id" => $currencies[$i]->id,
+                        "currency_from_id" => rand(1, count($currencies)),
                         "currency_to_id" => $currency->id
                     ]);
-                }
+                // }
     
             }
 
-        }
+        // }
     }
 }
