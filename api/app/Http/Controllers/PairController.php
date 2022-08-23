@@ -16,9 +16,12 @@ class PairController extends Controller
     {   
         $pairs = Pair::getAll();
         
-        foreach ($pairs as $value) {
-            print_r($value->currency_from->name);
+        if(!empty($pairs)) {
+            return $this->sendError(null, ['empty_datas' => "La liste des pairs est vide."]); 
         }
+        return $this->sendResponse($pairs, 'Liste de pair retrouvé avec succès.');
+        
+        
     }
 
     /**

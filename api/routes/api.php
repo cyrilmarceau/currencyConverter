@@ -19,8 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/ping', function () {
+    return response('API online', 200)->header('Content-Type', 'text/plain');
+});
+
 Route::controller(PairController::class)->group(function() {
-    Route::get('/pairs', 'index')->name('pair.list');
+    Route::get('/pairs', 'index');
     // Route::get('produits/{id}', 'getByID')->name('product.show')->where(['id' => '[0-9]+']);
     // Route::get('/produits/categorie/{id}', 'getByCategory')->name('product.category')->where(['id' => '[0-9]+']);;
     // Route::get('/produits/soldes', 'getBySales')->name('product.sales');

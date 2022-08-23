@@ -9,7 +9,8 @@
 
 ## API
 
-0. Le endpoint de l’API devra être : /api
-1. Savoir si le service est fonctionnel
-2. Récupérer la liste des pairs de conversion supportées
+0. Le endpoint de l’API devra être : /api ----> OK
+1. Savoir si le service est fonctionnel ----> OK
+2. Récupérer la liste des pairs de conversion supportées ----> OK
 3. Convertir une quantité de devise suivant une paire existante
+4. Faire le seeder de la convertion
