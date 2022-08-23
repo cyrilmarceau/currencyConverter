@@ -43,3 +43,5 @@ api/npm-debug.log
 api/yarn-error.log
 api/.idea
 api/.vscode
+
+symbols.txt
