@@ -73,7 +73,7 @@ class PairController extends Controller
             if($value['to']){
                 $currencyTo = Currency::create($value['to']);
             }
-            
+
             // Create new pair
             $pair = Pair::create([
                 "rate" => floatval($inputs['rate']),
@@ -111,6 +111,7 @@ class PairController extends Controller
      */
     public function destroy(Pair $pair)
     {
-        dd($pair);
+        $pair->delete();
+        return $this->sendResponse(null, 'Suppression réalisé avec succès.');
     }
 }
