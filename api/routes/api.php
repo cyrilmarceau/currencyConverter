@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\PairController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,22 +17,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/ping', function () {
     return response('API online', 200)->header('Content-Type', 'text/plain');
 });
 
 
-// Ressource for PAIR CRUD
-Route::apiResource('pairs', PairController::class);
-Route::apiResource('currencies', CurrencyController::class);
+Route::middleware('auth:sanctum')->group( function () {
+    // Route for custom function with PAIR CONTROLLER
+    Route::controller(PairController::class)->group(function() {
+        Route::post('pairs/convert', 'convertCurrencies');
+        Route::get('decompte', 'decompte');
+    });
 
-// Route for custom function with PAIR CONTROLLER
-Route::controller(PairController::class)->group(function() {
-    Route::post('pairs/convert', 'convertCurrencies');
-    Route::get('decompte', 'decompte');
+    // Ressource for PAIR CRUD
+    Route::apiResource('pairs', PairController::class);
+    Route::apiResource('currencies', CurrencyController::class);
+});
+
+Route::controller(RegisterController::class)->group(function(){
+    Route::post('login', 'login');
 });
 
