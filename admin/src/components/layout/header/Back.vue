@@ -1,5 +1,5 @@
 <template>
-  <el-page-header title="retour" @back="goBack" :icon="ArrowLeft" :content="route.name"></el-page-header>
+  <el-page-header title="retour" @back="goBack" :icon="ArrowLeft" :content="route.toto"></el-page-header>
 </template>
 
 <script setup>

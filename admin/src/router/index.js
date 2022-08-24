@@ -18,9 +18,14 @@ const router = createRouter({
             component: () => import("../views/home/HomeView.vue"),
         },
         {
-            path: "/paires",
-            name: "pairs",
-            component: () => import("../views/pairs/PairView.vue"),
+            path: "/pairs/create",
+            name: "paires - création",
+            component: () => import("../views/pairs/PairCreateView.vue"),
+        },
+        {
+            path: "/pairs/update/:id",
+            name: "pairs/update",
+            component: () => import("../views/pairs/PairUpdateView.vue"),
         },
         // {
         //     path: "/pairs/:id",

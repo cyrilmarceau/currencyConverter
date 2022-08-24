@@ -86,7 +86,7 @@ class PairController extends Controller
                 'pair_id' => $pair->id
             ]);
 
-            return $this->sendResponse($pair, 'Convertion crée avec succès.');
+            return $this->sendResponse($pair, 'Pair crée avec succès.');
             
         }
     }

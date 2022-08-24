@@ -3,8 +3,11 @@
 ## ADMIN
 
 1. S’identifier et accéder à l’administration privée
-2. Visualiser la liste des pairs supportées
+2. Visualiser la liste des pairs supportées ----> OK
 3. Ajouter, modifier ou supprimer une paire de conversion
+3.1 CREATE ----> OK
+3.2 UPDATE
+3.3 DELETE ----> OK
 4. Visualiser le nombre de requêtes effectuées pour chaque pair
 
 ## API
@@ -17,6 +20,6 @@
 5. CRUD pair
 5.1 CREATE ----> OK
 5.2 UPDATE ----> PROBLÈME AVEC LES ROUTES
-5.3 DELETE ----> PROBLÈME AVEC LES ROUTES
+5.3 DELETE ----> ----> OK
 6. Faire afficher le count depuis le model Pair via la relation convertion()
 7. Créer les requests pour la validations des champs ----> OK
