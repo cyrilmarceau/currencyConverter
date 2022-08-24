@@ -55,8 +55,6 @@
             </el-col>
         </el-row>
 
-       
-
         <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">Créer cette paire</el-button>
             <el-button @click="resetForm(ruleFormRef)">Réinitialiser</el-button>

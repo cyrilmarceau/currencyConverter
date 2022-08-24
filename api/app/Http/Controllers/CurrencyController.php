@@ -14,7 +14,10 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = Currency::getAll();
+
+        return $this->sendResponse($currencies, 'Devise récupéré avec succès.');
+
     }
 
     /**

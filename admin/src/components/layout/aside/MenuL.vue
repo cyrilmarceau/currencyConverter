@@ -27,7 +27,9 @@ import {
   Folder,
   Menu as IconMenu,
   Setting,
-  Expand
+  Expand,
+  DataLine,
+  Coin
 } from '@element-plus/icons-vue'
 
 import { reactive, ref, onUpdated } from 'vue'
@@ -43,12 +45,17 @@ const menuList = ref([
   {
       icon: IconMenu,
       title: 'Accueil',
-      path: 'accueil'
+      path: '/accueil'
   },
   {
-      icon: User,
+      icon: DataLine,
       title: 'Décompte',
-      path: 'utilisateurs'
+      path: '/decompte'
+  },
+  {
+      icon: Coin,
+      title: 'Convertion',
+      path: '/convertion'
   }
 ])
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\PairController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +27,11 @@ Route::get('/ping', function () {
 
 // Ressource for PAIR CRUD
 Route::apiResource('pairs', PairController::class);
+Route::apiResource('currencies', CurrencyController::class);
 
 // Route for custom function with PAIR CONTROLLER
 Route::controller(PairController::class)->group(function() {
     Route::post('pairs/convert', 'convertCurrencies');
+    Route::get('decompte', 'decompte');
 });
 

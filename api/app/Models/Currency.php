@@ -17,8 +17,15 @@ class Currency extends Model
         'symbol'
     ];
 
-    // public function pairs()
-    // {
-    //     return $this->hasMany(Pairs::class);
-    // }
+    /**
+     * getAll
+     * Get a list of all pairs
+     * @return array
+     */
+    public static function getAll()
+    {
+        $currencies = Currency::all();
+
+        return $currencies;
+    }
 }

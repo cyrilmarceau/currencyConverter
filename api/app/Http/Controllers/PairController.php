@@ -17,19 +17,41 @@ class PairController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function convertCurrencies(Request $request)
+    // {
+    //     $inputs = $request->all();
+       
+    //     $pair = Pair::getByID($inputs['pairId']);
+
+    //     if($pair !== null) {
+    //         $result = [
+    //             'from_price' => round($inputs['price'] * $pair->rate, 2),
+    //             'to_price' => round($inputs['price'] / $pair->rate, 2),
+    //         ];
+        
+    //         $pair->convertion()->update(['count' => $pair->count + 1]);
+
+    //         return $this->sendResponse($result, 'Convertion exécuté avec succès.');
+    //     }
+
+    //     return $this->sendError('Paire non existante.', null);
+    // }
+
     public function convertCurrencies(Request $request)
     {
         $inputs = $request->all();
-        
-        $pair = Pair::getByCurrenciesID(intval($inputs['currency_from']), intval($inputs['currency_to']));
+       
+        $pair = Pair::getByID($inputs['pairId']);
 
-        if($pair !== null) {
-            $result = [
-                'from_price' => round($inputs['price'] * $pair->rate, 2),
-                'to_price' => round($inputs['price'] / $pair->rate, 2),
-            ];
-        
-            $pair->convertion()->update(['count' => $pair->count + 1]);
+        if($pair->exists()) {
+
+            if($inputs['isReverse']) {
+                $result = ['price' => round($inputs['price'] / $pair->rate, 2)];
+            } else {
+                $result = ['price' => round($inputs['price'] * $pair->rate, 2)];
+            }
+
+            $pair->convertion()->increment('count');
 
             return $this->sendResponse($result, 'Convertion exécuté avec succès.');
         }
@@ -38,12 +60,25 @@ class PairController extends Controller
     }
 
     /**
+     * Convert a quantity of currency from an existant pairs
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function decompte()
+    {
+        $pairs = Pair::getAll();
+
+        return $this->sendResponse($pairs, 'Pair retrouvé avec succès.');
+
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $pairs = Pair::getAll();
         
         if($pairs->isEmpty()) {
@@ -68,9 +103,11 @@ class PairController extends Controller
         // Create new entry for currency
         foreach ($currencies as $value) {
             if($value['from']){
+                $value['from']['symbol'] = strtoupper($value['from']['symbol']);
                 $currencyFrom = Currency::create($value['from']);
             }
             if($value['to']){
+                $value['to']['symbol'] = strtoupper($value['to']['symbol']);
                 $currencyTo = Currency::create($value['to']);
             }
 
@@ -82,7 +119,7 @@ class PairController extends Controller
             ]);
 
             $pair->convertion()->create([
-                "count" => 1,
+                "count" => 0,
                 'pair_id' => $pair->id
             ]);
 

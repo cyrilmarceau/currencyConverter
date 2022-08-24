@@ -8,7 +8,7 @@
 3.1 CREATE ----> OK
 3.2 UPDATE
 3.3 DELETE ----> OK
-4. Visualiser le nombre de requêtes effectuées pour chaque pair
+4. Visualiser le nombre de requêtes effectuées pour chaque pair ----> OK
 
 ## API
 
@@ -20,6 +20,6 @@
 5. CRUD pair
 5.1 CREATE ----> OK
 5.2 UPDATE ----> PROBLÈME AVEC LES ROUTES
-5.3 DELETE ----> ----> OK
-6. Faire afficher le count depuis le model Pair via la relation convertion()
+5.3 DELETE ----> OK
+6. Faire afficher le count depuis le model Pair via la relation convertion() ----> OK
 7. Créer les requests pour la validations des champs ----> OK

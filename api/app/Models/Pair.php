@@ -27,11 +27,10 @@ class Pair extends Model
     /**
      * getAll
      * Get a list of all pairs
-     * @return array
      */
     public static function getAll()
     {
-        $pairs = Pair::with(['currency_from_id', 'currency_to_id'])->get();
+        $pairs = Pair::with(['currency_from_id', 'currency_to_id', 'convertion'])->get();
 
         return $pairs;
     }
@@ -39,7 +38,7 @@ class Pair extends Model
     /**
      * getByID
      * Get pair by ID
-     * @return array
+     * @return object
      */
     public static function getByID(int $id): object
     {
@@ -50,7 +49,7 @@ class Pair extends Model
     /**
      * getByID
      * Get pair by ID
-     * @return array
+     * @return object
      */
     public static function getByCurrenciesID(int $currency_from, int $currency_to)
     {
