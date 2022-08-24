@@ -23,10 +23,12 @@ Route::get('/ping', function () {
     return response('API online', 200)->header('Content-Type', 'text/plain');
 });
 
+
+// Ressource for PAIR CRUD
+Route::apiResource('pairs', PairController::class);
+
+// Route for custom function with PAIR CONTROLLER
 Route::controller(PairController::class)->group(function() {
-    Route::get('/pairs', 'index');
-    // Route::get('produits/{id}', 'getByID')->name('product.show')->where(['id' => '[0-9]+']);
-    // Route::get('/produits/categorie/{id}', 'getByCategory')->name('product.category')->where(['id' => '[0-9]+']);;
-    // Route::get('/produits/soldes', 'getBySales')->name('product.sales');
+    Route::post('pairs/convert', 'convertCurrencies');
 });
 

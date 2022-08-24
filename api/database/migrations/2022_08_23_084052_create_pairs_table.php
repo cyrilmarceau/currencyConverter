@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('pairs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->float('rate',8 ,2);
+            $table->float('rate', 10 , 5);
             $table->unsignedBigInteger('currency_from_id')->nullable();
             $table->unsignedBigInteger('currency_to_id')->nullable();
 

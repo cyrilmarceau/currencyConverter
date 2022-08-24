@@ -28,7 +28,7 @@ class PairSeeder extends Seeder
             ]);
 
             Convertion::create([
-                "count" => $key + 1,
+                "count" => $key,
                 'pair_id' => $pair->id
             ]);
 

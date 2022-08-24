@@ -32,6 +32,29 @@ class Pair extends Model
     public static function getAll()
     {
         $pairs = Pair::with(['currency_from_id', 'currency_to_id'])->get();
+
         return $pairs;
+    }
+
+    /**
+     * getByID
+     * Get pair by ID
+     * @return array
+     */
+    public static function getByID(int $id): object
+    {
+        $pair = Pair::find($id);
+        return $pair;
+    }
+
+    /**
+     * getByID
+     * Get pair by ID
+     * @return array
+     */
+    public static function getByCurrenciesID(int $currency_from, int $currency_to)
+    {
+        $pair = Pair::where('currency_from_id', $currency_from)->where('currency_to_id', $currency_to)->first();
+        return $pair;
     }
 }

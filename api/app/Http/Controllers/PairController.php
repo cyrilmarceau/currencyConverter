@@ -2,11 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PairRequest;
+use App\Models\Convertion;
+use Illuminate\Support\Arr;
+use App\Models\Currency;
 use App\Models\Pair;
 use Illuminate\Http\Request;
 
 class PairController extends Controller
 {
+
+    /**
+     * Convert a quantity of currency from an existant pairs
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function convertCurrencies(Request $request)
+    {
+        $inputs = $request->all();
+        
+        $pair = Pair::getByCurrenciesID(intval($inputs['currency_from']), intval($inputs['currency_to']));
+
+        if($pair !== null) {
+            $result = [
+                'from_price' => round($inputs['price'] * $pair->rate, 2),
+                'to_price' => round($inputs['price'] / $pair->rate, 2),
+            ];
+        
+            $pair->convertion()->update(['count' => $pair->count + 1]);
+
+            return $this->sendResponse($result, 'Convertion exécuté avec succès.');
+        }
+
+        return $this->sendError('Paire non existante.', null);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,58 +47,48 @@ class PairController extends Controller
         $pairs = Pair::getAll();
         
         if($pairs->isEmpty()) {
-            $errors = [
-                'empty_datas' => 'La liste des pairs est vide.'
-            ];
-
-            return $this->sendError(null, $errors); 
+            return $this->sendError('La liste des paire est vide.', null); 
         }
-        return $this->sendResponse($pairs, 'Liste de pair retrouvé avec succès.');
-        
-        
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->sendResponse($pairs, 'Liste de paire retrouvé avec succès.');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\PairRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(PairRequest $request)
+    {   
+        $inputs = $request->all();
+    
+        $currencies = Arr::except($inputs, ['rate']);
+        
+        // Create new entry for currency
+        foreach ($currencies as $value) {
+            if($value['from']){
+                $currencyFrom = Currency::create($value['from']);
+            }
+            if($value['to']){
+                $currencyTo = Currency::create($value['to']);
+            }
+            
+            // Create new pair
+            $pair = Pair::create([
+                "rate" => floatval($inputs['rate']),
+                "currency_from_id" => $currencyFrom->id,
+                "currency_to_id" => $currencyTo->id
+            ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pair  $pair
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pair $pair)
-    {
-        //
-    }
+            $pair->convertion()->create([
+                "count" => 1,
+                'pair_id' => $pair->id
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pair  $pair
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pair $pair)
-    {
-        //
+            return $this->sendResponse($pair, 'Convertion crée avec succès.');
+            
+        }
     }
 
     /**
@@ -91,6 +111,6 @@ class PairController extends Controller
      */
     public function destroy(Pair $pair)
     {
-        //
+        dd($pair);
     }
 }
