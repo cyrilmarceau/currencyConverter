@@ -89,6 +89,22 @@ class PairController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Pair  $pair
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Pair $pair)
+    {
+        $result = Pair::getByID($pair->id);
+
+        if($result->exists()){
+            dd($result);
+        }
+        return $this->sendError('Paire non existante.', null);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\PairRequest  $request

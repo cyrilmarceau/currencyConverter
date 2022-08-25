@@ -9,9 +9,12 @@ import "@/scss/_variable.scss";
 
 const app = createApp(App);
 
+
+
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem("token");
     config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers.common['Access-Control-Allow-Origin'] = '*';
     return config;
 });
 
