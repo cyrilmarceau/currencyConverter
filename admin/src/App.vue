@@ -1,25 +1,25 @@
 <template>
-  <div v-if="state.isAuthenticated" class="common-layout">
-    <el-container>
-      <el-aside><MenuL /></el-aside>
-      <el-container>
-        <el-header><Header /></el-header>
-        <el-main>
-            <el-row :gutter="20">
-                <el-col :span="24">
-                    <div class="grid-content ep-bg-purple">
-                      <RouterView />
-                    </div>
-                       
-                </el-col>
-            </el-row>
-        </el-main>
-      </el-container>
-    </el-container>
-  </div>
-  <div v-else>
-      <RouterView />
-  </div>
+    <div v-if="state.isAuthenticated" class="common-layout">
+            <el-container>
+                    <el-aside><MenuL /></el-aside>
+                    <el-container>
+                        <el-header><Header /></el-header>
+                        <el-main>
+                            <el-row :gutter="20">
+                                <el-col :span="24">
+                                    <div class="grid-content ep-bg-purple">
+                                        <RouterView />
+                                    </div>
+                                        
+                                </el-col>
+                            </el-row>
+                        </el-main>
+                    </el-container>
+            </el-container>
+    </div>
+    <div v-else>
+        <RouterView />
+    </div>
 </template>
 
 <script setup>
@@ -32,12 +32,14 @@ import { onMounted, reactive } from 'vue'
 const router = useRouter()
 
 const state = reactive({
-  isAuthenticated: true,
+    isAuthenticated: false,
 })
 
 const authRedirect = () => {
+    const token = localStorage.getItem('token')
 
-    if (state.isAuthenticated) {
+    if (token !== null) {
+        state.isAuthenticated = !state.isAuthenticated
         router.push('/accueil')
     } else {
         router.push('/login')
@@ -46,7 +48,7 @@ const authRedirect = () => {
 
 
 onMounted(() => {
-    // authRedirect();
+    authRedirect();
 })
 
 </script>

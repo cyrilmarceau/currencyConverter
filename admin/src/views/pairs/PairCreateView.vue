@@ -42,7 +42,6 @@
                     </el-form-item>
                 </div>
             </el-col>
-
         </el-row>
 
         <el-row :gutter="20">
@@ -125,6 +124,7 @@ const submitForm = (formEl) => {
             pairs.rate = ruleForm.rate
 
             axios.post("http://127.0.0.1:8000/api/pairs/", pairs)
+
             .then(response => {
                 if(response.data.success) {
                     formEl.resetFields()

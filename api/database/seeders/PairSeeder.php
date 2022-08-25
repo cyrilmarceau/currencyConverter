@@ -22,13 +22,13 @@ class PairSeeder extends Seeder
         foreach($currencies as $key => $currency) {
 
             $pair = Pair::create([
-                "rate" => mt_rand(0.1*10, 1.5*10) / 10,
+                "rate" => mt_rand(0.1 * 10, 1.5 *10) / 10.3,
                 "currency_from_id" => rand(1, count($currencies)),
                 "currency_to_id" => $currency->id
             ]);
 
             Convertion::create([
-                "count" => $key,
+                "count" => rand(0, 5),
                 'pair_id' => $pair->id
             ]);
 

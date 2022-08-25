@@ -107,7 +107,6 @@ const submitForm = (formEl) => {
 
   formEl.validate((valid) => {
         if (valid) {
-            console.log('submit!', {...state})
             const result = {
                 price: state.price,
                 pairId: state.pair,
@@ -121,8 +120,6 @@ const submitForm = (formEl) => {
                         formEl.resetFields()
 
                         state.convertionResult = {...response.data}
-
-                        console.log(state.convertionResult)
                     }
                 })
                 .catch(err => console.log(err));
