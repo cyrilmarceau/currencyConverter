@@ -16,7 +16,7 @@ class CurrencyController extends Controller
     {
         $currencies = Currency::getAll();
 
-        return $this->sendResponse($currencies, 'Devise récupéré avec succès.');
+        return $this->sendResponse($currencies, 'Devise récupérée avec succès.');
 
     }
 

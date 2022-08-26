@@ -1,18 +1,17 @@
 <template>
     <el-form
         ref="ruleFormRef"
-        :model="ruleForm"
+        :model="state"
         status-icon
         :rules="rules"
         label-width="120px"
-        class="demo-ruleForm"
         label-position="top"
     >
         <el-row :gutter="20">
             <el-col :span="12">
                 <div class="grid-content" >
                     <el-form-item label="Première devise - NOM" prop="currencyFromName">
-                        <el-input placeholder="Ex. EURO" v-model="ruleForm.currencyFromName" />
+                        <el-input placeholder="Ex. EURO" v-model="state.currencyFromName" />
                     </el-form-item>
                 </div>
             </el-col>
@@ -20,7 +19,7 @@
             <el-col :span="12">
                 <div class="grid-content" >
                     <el-form-item label="Première devise - SYMBOLE" prop="currencyFromSymbol">
-                        <el-input placeholder="Ex. EUR" v-model="ruleForm.currencyFromSymbol" />
+                        <el-input placeholder="Ex. EUR" v-model="state.currencyFromSymbol" />
                     </el-form-item>
                 </div>
             </el-col>
@@ -30,7 +29,7 @@
             <el-col :span="12">
                 <div class="grid-content" >
                     <el-form-item label="Deuxième devise - NOM" prop="currencyToName">
-                        <el-input placeholder="Ex. DOLLAR" v-model="ruleForm.currencyToName" />
+                        <el-input placeholder="Ex. DOLLAR" v-model="state.currencyToName" />
                     </el-form-item>
                 </div>
             </el-col>
@@ -38,7 +37,7 @@
             <el-col :span="12">
                 <div class="grid-content" >
                     <el-form-item label="Deuxième devise - SYMBOLE" prop="currencyToSymbol">
-                        <el-input placeholder="Ex. USD" v-model="ruleForm.currencyToSymbol" />
+                        <el-input placeholder="Ex. USD" v-model="state.currencyToSymbol" />
                     </el-form-item>
                 </div>
             </el-col>
@@ -48,7 +47,7 @@
             <el-col :span="12">
                 <div class="grid-content" >
                      <el-form-item label="Taux" prop="rate">
-                        <el-input-number style="width: 100%" v-model="ruleForm.rate" :precision="8" :step="0.1" :min="0" :max="10" />
+                        <el-input-number style="width: 100%" v-model="state.rate" :precision="8" :step="0.1" :min="0" :max="10" />
                     </el-form-item>
                 </div>
             </el-col>
@@ -70,11 +69,17 @@ import axios from 'axios'
 const route = useRoute();
 
 onMounted(() => {
-    axios.get("http://127.0.0.1:8000/api/pairs/" + route.params.id) 
+    // route.params.id
+    console.log()
+    axios.get(`http://127.0.0.1:8000/api/pairs/${route.params.id}`) 
         .then( response => {
             if(response.data.success) {
                 const { data } = response.data;
-                console.log(data)
+                state.currencyFromName = data.currency_from_id.name
+                state.currencyFromSymbol = data.currency_from_id.symbol
+                state.currencyToName = data.currency_to_id.name
+                state.currencyToSymbol = data.currency_to_id.symbol
+                state.rate = data.rate
             } 
         })
         .catch( error => console.log( 'error: ' + error.response ) ); 
@@ -84,7 +89,7 @@ const router = useRouter()
 
 const ruleFormRef = ref()
 
-const ruleForm = reactive({
+const state = reactive({
     currencyFromName: '',
     currencyFromSymbol: '',
     currencyToName: '',
@@ -117,7 +122,7 @@ const submitForm = (formEl) => {
 
     formEl.validate((valid) => {
         if (valid) {
-            let pairs = {
+            let pair = {
                 currencies: {
                     from: {
                         symbol: '',
@@ -130,18 +135,15 @@ const submitForm = (formEl) => {
                 },
                 rate: 0
             }
-            pairs.currencies.from.symbol = ruleForm.currencyFromSymbol
-            pairs.currencies.from.name = ruleForm.currencyFromName
-            pairs.currencies.to.symbol = ruleForm.currencyToSymbol
-            pairs.currencies.to.name = ruleForm.currencyToName
-            pairs.rate = ruleForm.rate
+            pair.currencies.from.symbol = state.currencyFromSymbol
+            pair.currencies.from.name = state.currencyFromName
+            pair.currencies.to.symbol = state.currencyToSymbol
+            pair.currencies.to.name = state.currencyToName
+            pair.rate = state.rate
 
-            axios.post("http://127.0.0.1:8000/api/pairs/", pairs)
-
-            .then(response => {
+            console.log(pair)
+            axios.put(`http://127.0.0.1:8000/api/pairs/${route.params.id}`, pair).then(response => {
                 if(response.data.success) {
-                    formEl.resetFields()
-
                     ElNotification({
                         title: 'Succès',
                         message: response.data.message,

@@ -18,6 +18,12 @@ class Pair extends Model
         'currency_to_id'
     ];
 
+    /**
+     * IMPORTANT A LIRE concernant la relation de la paire et des devises
+     * La relation est créer depuis un Provider afin de pouvoir liée 2 champ à 1 clé primaire
+     * Voir fichier App/Provider/AppServiceProvider -> fonction boot
+     */
+
     // Relation between convertion and pair
     public function convertion(){
         return $this->hasOne(Convertion::class);
@@ -42,7 +48,7 @@ class Pair extends Model
      */
     public static function getByID(int $id): object
     {
-        $pair = Pair::find($id);
+        $pair = Pair::with(['currency_from_id', 'currency_to_id'])->findOrFail($id);
         return $pair;
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class PairRequest extends FormRequest
+class ConvertCurrencyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,22 +26,18 @@ class PairRequest extends FormRequest
     public function rules()
     {
         return [
-            'rate' => 'required',
-            'currencies.from.symbol' => 'required',
-            'currencies.from.name' => 'required',
-            'currencies.to.symbol' => 'required',
-            'currencies.to.name' => 'required',
+            'price' => 'required',
+            'pairId' => 'required',
+            'isReverse' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'rate.required' => 'Le champ est obligatoire',
-            'currencies.from.symbol.required' => 'Le champ est obligatoire',
-            'currencies.from.name.required' => 'Le champ est obligatoire',
-            'currencies.to.symbol.required' => 'Le champ est obligatoire',
-            'currencies.to.name.required' => 'Le champ est obligatoire',
+            'price.required' => 'Le champ est obligatoire',
+            'pairId.required' => 'Le champ est obligatoire',
+            'isReverse.required' => 'Le champ est obligatoire',
         ];
     }
 

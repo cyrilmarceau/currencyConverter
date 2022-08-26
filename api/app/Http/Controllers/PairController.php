@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
+
+use App\Http\Requests\ConvertCurrencyRequest;
 use App\Http\Requests\PairRequest;
 use App\Models\Convertion;
 use Illuminate\Support\Arr;
@@ -13,31 +16,9 @@ class PairController extends Controller
 {
 
     /**
-     * Convert a quantity of currency from an existant pairs
-     *
-     * @return \Illuminate\Http\Response
+     * Convert currencies and increment pair associate to the currency
      */
-    // public function convertCurrencies(Request $request)
-    // {
-    //     $inputs = $request->all();
-       
-    //     $pair = Pair::getByID($inputs['pairId']);
-
-    //     if($pair !== null) {
-    //         $result = [
-    //             'from_price' => round($inputs['price'] * $pair->rate, 2),
-    //             'to_price' => round($inputs['price'] / $pair->rate, 2),
-    //         ];
-        
-    //         $pair->convertion()->update(['count' => $pair->count + 1]);
-
-    //         return $this->sendResponse($result, 'Convertion exécuté avec succès.');
-    //     }
-
-    //     return $this->sendError('Paire non existante.', null);
-    // }
-
-    public function convertCurrencies(Request $request)
+    public function convertCurrencies(ConvertCurrencyRequest $request)
     {
         $inputs = $request->all();
        
@@ -53,7 +34,7 @@ class PairController extends Controller
 
             $pair->convertion()->increment('count');
 
-            return $this->sendResponse($result, 'Convertion exécuté avec succès.');
+            return $this->sendResponse($result, 'Conversion exécutée avec succès.');
         }
 
         return $this->sendError('Paire non existante.', null);
@@ -68,7 +49,7 @@ class PairController extends Controller
     {
         $pairs = Pair::getAll();
 
-        return $this->sendResponse($pairs, 'Pair retrouvé avec succès.');
+        return $this->sendResponse($pairs, 'Paire retrouvé avec succès.');
 
     }
 
@@ -86,22 +67,6 @@ class PairController extends Controller
         }
 
         return $this->sendResponse($pairs, 'Liste de paire retrouvé avec succès.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pair  $pair
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pair $pair)
-    {
-        $result = Pair::getByID($pair->id);
-
-        if($result->exists()){
-            dd($result);
-        }
-        return $this->sendError('Paire non existante.', null);
     }
 
     /**
@@ -139,7 +104,7 @@ class PairController extends Controller
                 'pair_id' => $pair->id
             ]);
 
-            return $this->sendResponse($pair, 'Pair crée avec succès.');
+            return $this->sendResponse($pair, 'Paire crée avec succès.');
             
         }
     }
@@ -147,13 +112,36 @@ class PairController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\PairRequest  $request
      * @param  \App\Models\Pair  $pair
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pair $pair)
+    public function update(PairRequest $request, Pair $pair)
     {
-        //
+        $inputs = $request->all();
+    
+        $currencies = Arr::except($inputs, ['rate']);
+
+        $pair->update(['rate' => $inputs['rate']]);
+
+
+        // Create new entry for currency
+        foreach ($currencies as $value) {
+            if($value['from']){
+                $value['from']['symbol'] = strtoupper($value['from']['symbol']);
+
+                $pair->currency_from_id()->update(['name' =>  $value['from']['name']]);
+                $pair->currency_from_id()->update(['symbol' =>  $value['from']['symbol']]);
+            }
+            if($value['to']){
+                $value['to']['symbol'] = strtoupper($value['to']['symbol']);
+                $pair->currency_to_id()->update(['name' =>  $value['to']['name']]);
+                $pair->currency_to_id()->update(['symbol' =>  $value['to']['symbol']]);
+            }
+
+            return $this->sendResponse($pair, 'Paire mise à jours avec succès.');
+            
+        }
     }
 
     /**
@@ -164,7 +152,7 @@ class PairController extends Controller
      */
     public function destroy(Pair $pair)
     {
-        $pair->delete();
-        return $this->sendResponse(null, 'Suppression réalisé avec succès.');
+        $toto = $pair->delete();
+        return $this->sendError('La liste des paire est vide.', $toto); 
     }
 }

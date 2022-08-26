@@ -60,7 +60,7 @@
 </style>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 
 const ruleFormRef = ref()
@@ -81,6 +81,11 @@ const rules = reactive({
     }],
     price: [{ trigger: 'blur', required: true }]
 })
+
+watch(() => state.convertionResult,(convertionResult, prevConvertionResult) => {
+    console.log('convertionResult', convertionResult)
+  }
+)
 
 onMounted(() => {
     axios.get("http://127.0.0.1:8000/api/pairs") 

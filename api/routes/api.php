@@ -22,18 +22,25 @@ Route::get('/ping', function () {
 });
 
 
-Route::middleware('auth:sanctum')->group( function () {
-    // Route for custom function with PAIR CONTROLLER
+Route::middleware(['auth:sanctum'])->group( function () {
+
+    /** Get count */
     Route::controller(PairController::class)->group(function() {
-        Route::post('pairs/convert', 'convertCurrencies');
         Route::get('decompte', 'decompte');
     });
 
-    // Ressource for PAIR CRUD
+    /** API ressource for PAIR CRUD */
     Route::apiResource('pairs', PairController::class);
     Route::apiResource('currencies', CurrencyController::class);
 });
 
+
+/** CONVERTION */
+Route::controller(PairController::class)->group(function(){
+    Route::post('pairs/convert', 'convertCurrencies');
+});
+
+/** AUTH */
 Route::controller(RegisterController::class)->group(function(){
     Route::post('login', 'login');
 });
