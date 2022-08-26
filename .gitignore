@@ -1,3 +1,5 @@
+extra
+
 # Logs
 admin/logs
 admin/*.log
@@ -43,5 +45,3 @@ api/npm-debug.log
 api/yarn-error.log
 api/.idea
 api/.vscode
-
-symbols.txt
