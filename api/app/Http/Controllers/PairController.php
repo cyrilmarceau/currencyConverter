@@ -64,9 +64,27 @@ class PairController extends Controller
         
         if($pairs->isEmpty()) {
             return $this->sendError('La liste des paire est vide.', null); 
+        } else {
+            return $this->sendResponse($pairs, 'Liste de paire retrouvé avec succès.');
         }
 
-        return $this->sendResponse($pairs, 'Liste de paire retrouvé avec succès.');
+        
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Pair  $pair
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Pair $pair)
+    {
+        $result = Pair::getByID($pair->id);
+
+        if($result->exists()){
+             return $this->sendResponse($result, 'Liste de paire retrouvé avec succès.');
+        }
+        return $this->sendError('Paire non existante.', null);
     }
 
     /**

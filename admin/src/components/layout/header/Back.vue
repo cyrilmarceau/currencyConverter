@@ -4,13 +4,14 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { onMounted, reactive } from 'vue'
 
-const route = useRoute()
+const route = useRoute();
+const router = useRouter();
 
-const goBack = () => router.back()
+const goBack = () => router.back();
 
 </script>
 

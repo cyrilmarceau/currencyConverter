@@ -27,7 +27,7 @@ import { RouterView } from "vue-router";
 import MenuL from '@/components/layout/aside/MenuL.vue';
 import Header from '@/components/layout/header/Header.vue';
 import { useRouter } from 'vue-router'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, watch } from 'vue'
 
 const router = useRouter()
 
@@ -39,8 +39,7 @@ const authRedirect = () => {
     const token = localStorage.getItem('token')
 
     if (token !== null) {
-        state.isAuthenticated = !state.isAuthenticated
-        router.push('/accueil')
+        state.isAuthenticated = true
     } else {
         router.push('/login')
     }
@@ -50,6 +49,13 @@ const authRedirect = () => {
 onMounted(() => {
     authRedirect();
 })
+
+watch(() => state, (isAuthenticated, oldIsAuthenticated) => {
+    console.log(`isAuthenticated is: ${isAuthenticated}`)
+  }
+)
+
+
 
 </script>
 

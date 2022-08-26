@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+/** AUTH */
+Route::controller(RegisterController::class)->group(function(){
+    Route::post('login', 'login');
+});
+
+
+
 Route::get('/ping', function () {
     return response('API online', 200)->header('Content-Type', 'text/plain');
 });
@@ -32,6 +40,10 @@ Route::middleware(['auth:sanctum'])->group( function () {
     /** API ressource for PAIR CRUD */
     Route::apiResource('pairs', PairController::class);
     Route::apiResource('currencies', CurrencyController::class);
+
+    Route::controller(RegisterController::class)->group(function(){
+        Route::post('logout', 'logout');
+    });
 });
 
 
@@ -39,9 +51,3 @@ Route::middleware(['auth:sanctum'])->group( function () {
 Route::controller(PairController::class)->group(function(){
     Route::post('pairs/convert', 'convertCurrencies');
 });
-
-/** AUTH */
-Route::controller(RegisterController::class)->group(function(){
-    Route::post('login', 'login');
-});
-

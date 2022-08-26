@@ -13,7 +13,7 @@ class RegisterController extends Controller
 {
 
     /**
-     * Login api
+     * Login
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,5 +29,29 @@ class RegisterController extends Controller
         else{ 
             return $this->sendError('Identifiant incorrect.', null);
         } 
+    }
+
+    /**
+     * Logout
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $isTokenDelete = $request->user()->tokens()->delete();
+
+        if($isTokenDelete){
+            $success = [
+                'success' => true,
+                'data' => null,
+                'message' => "Utilisateur correctement déconnecter"
+            ];
+
+            return $this->sendResponse($success, 'Utilisateur correctement déconnecté.');
+        } else {
+            return $this->sendError('Problème lors de la déconnexion.', null);
+        }
+
+
     }
 }

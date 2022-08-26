@@ -19,7 +19,7 @@ class Currency extends Model
 
     /**
      * getAll
-     * Get a list of all pairs
+     * Get a list of all currencies
      * @return array
      */
     public static function getAll()

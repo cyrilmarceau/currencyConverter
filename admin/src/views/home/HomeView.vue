@@ -1,6 +1,5 @@
 <script setup>
 import { ElButton, ElNotification } from 'element-plus'
-import Table from '@/components/Table.vue'
 import axios from 'axios'
 import { onMounted, ref, reactive, watch } from 'vue'
 import { Timer, Edit, Delete } from '@element-plus/icons-vue'
