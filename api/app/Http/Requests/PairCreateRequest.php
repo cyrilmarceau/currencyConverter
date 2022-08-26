@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class PairRequest extends FormRequest
+class PairCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,10 +27,8 @@ class PairRequest extends FormRequest
     {
         return [
             'rate' => 'required',
-            'currencies.from.symbol' => 'required',
-            'currencies.from.name' => 'required',
-            'currencies.to.symbol' => 'required',
-            'currencies.to.name' => 'required',
+            'currency_from_id' => 'required',
+            'currency_to_id' => 'required',
         ];
     }
 
@@ -38,10 +36,8 @@ class PairRequest extends FormRequest
     {
         return [
             'rate.required' => 'Le champ est obligatoire',
-            'currencies.from.symbol.required' => 'Le champ est obligatoire',
-            'currencies.from.name.required' => 'Le champ est obligatoire',
-            'currencies.to.symbol.required' => 'Le champ est obligatoire',
-            'currencies.to.name.required' => 'Le champ est obligatoire',
+            'currency_from_id.required' => 'Le champ est obligatoire',
+            'currency_to_id.required' => 'Le champ est obligatoire',
         ];
     }
 

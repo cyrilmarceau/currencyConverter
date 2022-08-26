@@ -23,11 +23,6 @@ const router = createRouter({
             component: () => import("../views/decompte/DecompteView.vue"),
         },
         {
-            path: "/convertion",
-            name: "convertion",
-            component: () => import("../views/convertion/ConvertionView.vue"),
-        },
-        {
             path: "/pairs/create",
             name: "paires - création",
             component: () => import("../views/pairs/PairCreateView.vue"),
@@ -37,11 +32,11 @@ const router = createRouter({
             name: "pairs/update",
             component: () => import("../views/pairs/PairUpdateView.vue"),
         },
-        // {
-        //     path: "/pairs/:id",
-        //     name: "pairs/pair",
-        //     component: () => import("../views/users/PairView.vue"),
-        // }
+        {
+            path: "/currencies/create",
+            name: "devises - création",
+            component: () => import("../views/currencies/CurrencyCreateView.vue"),
+        },
     ],
 });
 

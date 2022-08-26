@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use Illuminate\Http\Request;
+use Exception;
 
 class CurrencyController extends Controller
 {
@@ -38,7 +39,22 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $inputs = $request->all();
+        
+        if($inputs['currency']){
+            $inputs['currency']['symbol'] = strtoupper($inputs['currency']['symbol']);
+            
+            try {
+                Currency::create($inputs['currency']);
+
+                return $this->sendResponse(null, 'Devise crée avec succès.');
+            } catch (Exception $e) {
+                $errorCode = $e->errorInfo[1];
+                if($errorCode == 1062){
+                    return $this->sendError('La devise ' . $inputs['currency']['symbol'] . ' existe déjà', null);
+                }
+            }
+        }
     }
 
     /**

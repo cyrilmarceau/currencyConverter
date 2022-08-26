@@ -26,7 +26,6 @@ class Currency extends Model
     public static function getAll(): Collection
     {
         $currencies = Currency::all();
-
         return $currencies;
     }
 

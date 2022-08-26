@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Throwable;
 
 use App\Http\Requests\ConvertCurrencyRequest;
-use App\Http\Requests\PairRequest;
+use App\Http\Requests\PairCreateRequest;
+use App\Http\Requests\PairUpdateRequest;
 use App\Models\Convertion;
 use Illuminate\Support\Arr;
 use App\Models\Currency;
@@ -90,31 +91,18 @@ class PairController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\PairRequest  $request
+     * @param  \Illuminate\Http\PairCreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PairRequest $request)
+    public function store(PairCreateRequest $request)
     {   
-        $inputs = $request->all();
+        $isPairExist = Pair::getByCurrenciesID($request->all()['currency_from_id'], $request->all()['currency_to_id']);
         
-        if($inputs['currencies']['from']){
-            $inputs['currencies']['from']['symbol'] = strtoupper($inputs['currencies']['from']['symbol']);
-            $currencyFrom = Currency::create($inputs['currencies']['from']);
+        if($isPairExist !== null){
+            return $this->sendError('La paire existe déjà.', null, 409);
         }
 
-        if($inputs['currencies']['to']){
-            $inputs['currencies']['to']['symbol'] = strtoupper($inputs['currencies']['to']['symbol']);
-            $currencyTo = Currency::create($inputs['currencies']['to']);
-        }
-
-        
-
-        // Create new pair
-        $pair = Pair::create([
-            "rate" => floatval($inputs['rate']),
-            "currency_from_id" => $currencyFrom->id,
-            "currency_to_id" => $currencyTo->id
-        ]);
+        $pair = Pair::create($request->all());
 
         $pair->convertion()->create([
             "count" => 0,
@@ -127,11 +115,11 @@ class PairController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\PairRequest  $request
+     * @param  \Illuminate\Http\PairUpdateRequest  $request
      * @param  \App\Models\Pair  $pair
      * @return \Illuminate\Http\Response
      */
-    public function update(PairRequest $request, Pair $pair)
+    public function update(PairUpdateRequest $request, Pair $pair)
     {
         $inputs = $request->all();
     
@@ -167,7 +155,7 @@ class PairController extends Controller
      */
     public function destroy(Pair $pair)
     {
-        $toto = $pair->delete();
-        return $this->sendError('La liste des paire est vide.', $toto); 
+        $pair->delete();
+        return $this->sendResponse(null, 'La paire a bien été supprimer.'); 
     }
 }

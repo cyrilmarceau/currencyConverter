@@ -54,8 +54,8 @@ const menuList = ref([
   },
   {
       icon: Coin,
-      title: 'Convertion',
-      path: '/convertion'
+      title: 'Devise',
+      path: '/currencies/create'
   }
 ])
 
