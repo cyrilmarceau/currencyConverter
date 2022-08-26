@@ -8,8 +8,8 @@ DB_PASSWORD
 
 ## Installation des dépendences
 
-$ composer install
-$ npm install
+$ cd api && composer install
+$ cd admin && npm install
 
 ## Lancer les migrations et les seeders
 
