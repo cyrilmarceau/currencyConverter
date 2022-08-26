@@ -96,35 +96,32 @@ class PairController extends Controller
     public function store(PairRequest $request)
     {   
         $inputs = $request->all();
-    
-        $currencies = Arr::except($inputs, ['rate']);
         
-        // Create new entry for currency
-        foreach ($currencies as $value) {
-            if($value['from']){
-                $value['from']['symbol'] = strtoupper($value['from']['symbol']);
-                $currencyFrom = Currency::create($value['from']);
-            }
-            if($value['to']){
-                $value['to']['symbol'] = strtoupper($value['to']['symbol']);
-                $currencyTo = Currency::create($value['to']);
-            }
-
-            // Create new pair
-            $pair = Pair::create([
-                "rate" => floatval($inputs['rate']),
-                "currency_from_id" => $currencyFrom->id,
-                "currency_to_id" => $currencyTo->id
-            ]);
-
-            $pair->convertion()->create([
-                "count" => 0,
-                'pair_id' => $pair->id
-            ]);
-
-            return $this->sendResponse($pair, 'Paire crée avec succès.');
-            
+        if($inputs['currencies']['from']){
+            $inputs['currencies']['from']['symbol'] = strtoupper($inputs['currencies']['from']['symbol']);
+            $currencyFrom = Currency::create($inputs['currencies']['from']);
         }
+
+        if($inputs['currencies']['to']){
+            $inputs['currencies']['to']['symbol'] = strtoupper($inputs['currencies']['to']['symbol']);
+            $currencyTo = Currency::create($inputs['currencies']['to']);
+        }
+
+        
+
+        // Create new pair
+        $pair = Pair::create([
+            "rate" => floatval($inputs['rate']),
+            "currency_from_id" => $currencyFrom->id,
+            "currency_to_id" => $currencyTo->id
+        ]);
+
+        $pair->convertion()->create([
+            "count" => 0,
+            'pair_id' => $pair->id
+        ]);
+
+        return $this->sendResponse($pair, 'Paire crée avec succès.');
     }
 
     /**

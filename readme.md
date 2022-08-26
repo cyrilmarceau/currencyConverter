@@ -3,8 +3,8 @@
 ## .env
 
 Changer les variables d'environnements
-DB_USERNAME=root
-DB_PASSWORD=sXVHViMVts8c6z
+DB_USERNAME
+DB_PASSWORD
 
 ## Installation des dépendences
 

@@ -11,7 +11,7 @@ use Validator;
 
 class RegisterController extends Controller
 {
-
+    
     /**
      * Login
      *

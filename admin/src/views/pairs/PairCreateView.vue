@@ -136,7 +136,14 @@ const submitForm = (formEl) => {
                         duration: 1500
                     })
                 }
-            }).catch(err => console.log(err));
+            }).catch(err => {
+                ElNotification({
+                        title: 'Erreur',
+                        message: err.response.data.message,
+                        type: 'error',
+                        duration: 1500
+                    })
+            });
         } else {
             return false
         }
